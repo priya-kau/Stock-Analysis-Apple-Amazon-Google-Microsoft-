@@ -1,5 +1,4 @@
-# Stock-Analysis-Apple-Amazon-Google-Microsoft-
-Stock Price Analysis
+#Stock-Analysis-Apple-Amazon-Google-Microsoft
 This Jupyter Notebook provides a comprehensive analysis of stock prices for selected companies over a period of five years. The primary focus is on data collection, processing, and visual analysis of stock price changes over time.
 
 Table of Contents
@@ -10,97 +9,22 @@ Visualization
 Correlation Analysis
 Conclusions
 Data Collection
-The data for this analysis is collected from CSV files containing stock prices for individual companies over five years. The companies included in this analysis are:
+The data for this analysis is collected from CSV files containing stock prices for individual companies over five years. The companies included in this analysis are Apple (AAPL), Amazon (AMZN), Google (GOOG), and Microsoft (MSFT). The glob module is used to retrieve all CSV files from the specified directory, ensuring that all relevant files are included for the analysis.
 
-Apple (AAPL)
-Amazon (AMZN)
-Google (GOOG)
-Microsoft (MSFT)
-python
-Copy code
-import pandas as pd
-import numpy as np
-import glob
-
-# List of company data files
-company_list = [
-    'Z:\\3.. S_&_P\\Datasets\\individual_stocks_5yr\\AAPL_data.csv',
-    'Z:\\3.. S_&_P\\Datasets\\individual_stocks_5yr\\AMZN_data.csv',
-    'Z:\\3.. S_&_P\\Datasets\\individual_stocks_5yr\\GOOG_data.csv',
-    'Z:\\3.. S_&_P\\Datasets\\individual_stocks_5yr\\MSFT_data.csv'
-]
 Data Preprocessing
-The data is loaded and concatenated into a single DataFrame for analysis. Any missing values and data types are checked and handled appropriately.
+Once the data is collected, it is loaded and concatenated into a single DataFrame for analysis. Any missing values are identified and handled appropriately, and the data types of each column are checked and converted if necessary. This ensures that the dataset is clean and ready for analysis. The append method from pandas is utilized to combine the data from multiple files into one cohesive DataFrame.
 
-python
-Copy code
-# Concatenate data from multiple files
-all_data = pd.DataFrame()
-for file in company_list:
-    current_df = pd.read_csv(file)
-    all_data = current_df.append(all_data, ignore_index=True)
-
-# Check for missing values
-all_data.isnull().sum()
-
-# Check data types
-all_data.dtypes
 Analysis of Price Changes
-The change in stock prices over time is analyzed by calculating the percentage change in closing prices for each stock.
+The change in stock prices over time is analyzed by calculating the percentage change in closing prices for each stock. This involves creating a pivot table with dates as the index and stock names as columns, and then calculating the percentage change from one day to the next for each stock. This step is crucial for understanding the volatility and performance of each stock over the specified period.
 
-python
-Copy code
-# Calculate percentage change in closing prices
-closing_price = all_data.pivot_table(index='date', columns='Name', values='close')
-for col in closing_price.columns:
-    closing_price[col + '_pct_change'] = (closing_price[col] - closing_price[col].shift(1)) / closing_price[col].shift(1) * 100
 Visualization
-Various visualizations are used to understand the distribution and relationship between stock price changes. PairGrid from Seaborn is used for detailed pairwise plots.
+Various visualizations are employed to understand the distribution and relationship between stock price changes. PairGrid from Seaborn is used to create detailed pairwise plots. These plots include histograms on the diagonals to show the distribution of percentage changes, scatter plots on the lower triangle to show relationships between pairs of stocks, and KDE (Kernel Density Estimate) plots on the upper triangle to show the density of the data points.
 
-python
-Copy code
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# PairGrid visualization
-g = sns.PairGrid(data=clsing_p)
-g.map_diag(sns.histplot)
-g.map_lower(sns.scatterplot)
-g.map_upper(sns.kdeplot)
-plt.show()
 Correlation Analysis
-The correlation between the percentage changes in stock prices of different companies is calculated to understand their relationship.
+The correlation between the percentage changes in stock prices of different companies is calculated to understand their relationship. This helps in identifying how the stocks move in relation to each other, providing insights into whether they tend to move together or independently. Correlation matrices are used to summarize these relationships.
 
-python
-Copy code
-# Calculate correlation
-clsing_p.corr()
 Conclusions
-The analysis concludes with insights into the linear relationships and correlations between the stock price changes of different companies.
+The analysis concludes with insights into the linear relationships and correlations between the stock price changes of different companies. For instance, it was observed that there is a linear relationship to some extent between the percentage changes in the closing prices of Apple and Amazon stocks. These insights can be valuable for investors and analysts looking to understand market dynamics and make informed decisions.
 
-python
-Copy code
-"""
-Conclusion:
-While comparing 'AAPL_close_pct_change' to 'AMZN_close_pct_change', it shows a linear relationship to some extent.
-"""
 Dependencies
-The following Python packages are required to run the notebook:
-
-pandas
-numpy
-matplotlib
-seaborn
-glob
-warnings
-python
-Copy code
-# Import necessary packages
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import glob
-import warnings
-from warnings import filterwarnings
-filterwarnings('ignore')
+The following Python packages are required to run the notebook: pandas, numpy, matplotlib, seaborn, glob, and warnings. These packages are imported at the beginning of the notebook to ensure all necessary tools are available for data manipulation, visualization, and analysis.
